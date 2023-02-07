@@ -15,12 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from review import views as r_views
-from ticket import views
-from user import views
-
+from django.conf.urls.static import static
+from django.conf import settings
+import review.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accueil/', r_views.accueil),
+
+    path('', review.views.login_page, name='login'),
+    path('signup/', review.views.signup, name='signup'),
+    path('logout/', review.views.logout_user, name='logout'),
+
+    path('flux/', review.views.flux, name='flux'),
+    path('flux/ticket/', review.views.ticket_create, name='ticket-create'),
+    path('flux/review/', review.views.review_create, name='review-create'),
+
+    path('abo/', review.views.abo, name='abo'),
+    path('post/', review.views.post, name='post'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

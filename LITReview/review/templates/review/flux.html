@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Page flux</h1>
+<a href="{% url 'ticket-create' %}">
+    <button>Demander une critique</button>
+</a>
+<a href="{% url 'review-create' %}">
+    <button>Créer une critique</button>
+</a>
+<ul>
+    {% for ticket in tickets %}
+    <li>{{ ticket.title }}</li>
+    <p>{{ ticket.description }}</p><img src="/media/{{ticket.image}}" width="70">
+    {% endfor %}
+</ul>
+{% endblock content %}
