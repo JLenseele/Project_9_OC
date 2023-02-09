@@ -29,9 +29,14 @@ urlpatterns = [
     path('flux/', review.views.flux, name='flux'),
     path('flux/ticket/', review.views.ticket_create, name='ticket-create'),
     path('flux/review/', review.views.review_create, name='review-create'),
+    path('flux/review/<int:ticket_id>', review.views.review_create, name='review-from-ticket'),
 
     path('abo/', review.views.abo, name='abo'),
-    path('post/', review.views.post, name='post'),
+    path('abo/<int:sub_id>/unsub/', review.views.unsub, name='unsub'),
+
+    path('mypost/', review.views.mypost, name='mypost'),
+    path('mypost/<int:post_id>/<str:post_type>/change/', review.views.mypost_change, name='mypost-change'),
+    path('mypost/<int:post_id>/<str:post_type>/delete/', review.views.mypost_delete, name='mypost-delete'),
 ]
 
 if settings.DEBUG:

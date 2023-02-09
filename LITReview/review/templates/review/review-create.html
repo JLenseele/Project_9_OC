@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Page Nouvelle Critique1</h1>
-<form action="" method="post">
+{% if ticket %}
+<p>Vous êtes en train de poster en réponse à</p>
+{% include 'ticket_snippet.html' with post=ticket %}
+{% endif %}
+<form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form_review.as_p }}
+    {{ form_ticket.as_p }}
     <input type="submit" value="Créer">
 </form>
 {% endblock content %}

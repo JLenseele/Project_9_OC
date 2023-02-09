@@ -1,4 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Page abo</h1>
+
+<h2>Suivre d'autre utilisateur</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Envoyer">
+</form>
+
+<h2>Abonnements</h2>
+<table>
+    {% for sub in subscription %}
+    <tr>
+        <td>{{sub.followed_user}}</td>
+        <td>
+            <a href="{% url 'unsub' sub.id %}">
+                <button>Désabonner</button></a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Abonnés</h2>
+<table>
+        {% for subc in subscriber %}
+    <tr>
+        <td>{{subc.user}}</td>
+    </tr>
+        {% endfor %}
+
+</table>
 {% endblock content %}

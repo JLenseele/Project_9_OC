@@ -57,6 +57,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR.joinpath('templates'),
+            BASE_DIR.joinpath('review', 'templates', 'review'),
                  ],
         'APP_DIRS': True,
         'OPTIONS': {
