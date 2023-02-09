@@ -35,10 +35,13 @@ margin: 50px;}
 .ticket{
 border: 5px solid #000000A6;
 margin:30px;
+padding: 20px;
+background-color: #EDEDED;
 }
 .review{
 border: 5px solid #000000A6;
 margin:30px;
+background-color: #D6D6D6;
 }
 tr{
   width: 100%;

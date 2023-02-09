@@ -24,7 +24,7 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                message = {user.username}
+                return redirect('flux')
             else:
                 message = 'Identifiants invalides.'
     return render(request, 'review/login.html', context={'form': form, 'message': message})
@@ -48,19 +48,31 @@ def signup(request):
 
 @login_required
 def flux(request):
+
     tickets = Ticket.objects.filter(
-        Q(user__followed_by__user=request.user) | Q(user=request.user)
+        Q(user__followed_by__user=request.user) |
+        Q(user=request.user)
     )
+
     reviews = Review.objects.filter(
-        Q(user__followed_by__user=request.user) | Q(user=request.user)
+        Q(user__followed_by__user=request.user) |
+        Q(user=request.user)
     )
+
+    liste = []
+    tickets_review = Review.objects.values('ticket')
+    for tick in tickets_review:
+        liste.append(tick['ticket'])
+
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
     posts = sorted(
         chain(reviews, tickets),
         key=lambda post: post.time_created,
         reverse=True)
-    return render(request, 'review/flux.html', {'posts': posts})
+
+    return render(request, 'review/flux.html', context={'posts': posts, 'liste': liste})
 
 
 @login_required

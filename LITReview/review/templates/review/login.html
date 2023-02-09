@@ -6,10 +6,12 @@
 </div>
 
 <div class="right">
+    {{ message }}
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
         <button type="submit" >Se connecter</button>
+
     </form>
 </div>
 

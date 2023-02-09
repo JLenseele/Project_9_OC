@@ -11,9 +11,6 @@
     {% for post in posts %}
         {% if post.content_type == 'TICKET' %}
             {% include 'ticket_snippet.html' %}
-            <a href="{% url 'review-from-ticket' post.id %}">
-                <button>Créer une critique</button>
-            </a>
         {% elif post.content_type == 'REVIEW' %}
             {% include 'review_snippet.html' %}
         {% endif %}
