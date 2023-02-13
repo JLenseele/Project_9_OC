@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Inscrivez-vous</h2>
+{{ message }}
 <form method="post">
-  {{ form.as_p }}
+    <div class="form-group">
+        {{ form.username }}
+    </div>
+    <div class="form-group">
+        {{ form.password1 }}
+    </div>
+  <div class="form-group">
+        {{ form.password2 }}
+    </div>
   {% csrf_token %}
   <button type="submit">S'inscrire</button>
 </form>

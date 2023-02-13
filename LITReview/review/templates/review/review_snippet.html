@@ -1,7 +1,18 @@
+{% load review_tags %}
 <div class="review">
+        <p id="user">
+        {% if post.user.username == user.username %}
+                Vous avez publié une critique
+        {% else %}
+                {{ post.user }} a publié une critique
+        {% endif %}
+        </p>
+
         <time>{{ post.time_created }}</time>
-        <li>{{ post.headline }} - {{ post.rating }}</li>
-        <p>{{ post.body }}</p>
+
+        <p id="headline">{{ post.headline }} - {{ post.rating }}</p>
+        <p id="body">{{ post.body }}</p>
+
         {% if post.ticket %}
                 <div class="review_include_ticket">
                 {% include 'ticket_snippet.html' with post=post.ticket %}

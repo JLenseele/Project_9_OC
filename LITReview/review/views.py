@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import CharField, Value, Q
 
-from review.forms import TicketForm, ReviewForm, FollowForm
+from review.forms import TicketForm, ReviewForm, FollowForm, SignupForm
 from review.models import Ticket, Review, UserFollows
 
 from itertools import chain
@@ -36,7 +36,7 @@ def logout_user(request):
 
 
 def signup(request):
-    form = UserCreationForm()
+    form = SignupForm()
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -50,14 +50,14 @@ def signup(request):
 def flux(request):
 
     tickets = Ticket.objects.filter(
-        Q(user__followed_by__user=request.user) |
+        Q(user__followed_by__user=request.user) ^
         Q(user=request.user)
-    )
+    ).distinct()
 
     reviews = Review.objects.filter(
-        Q(user__followed_by__user=request.user) |
+        Q(user__followed_by__user=request.user) ^
         Q(user=request.user)
-    )
+    ).distinct()
 
     liste = []
     tickets_review = Review.objects.values('ticket')
@@ -66,7 +66,8 @@ def flux(request):
 
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
-
+    print(reviews)
+    print(tickets)
     posts = sorted(
         chain(reviews, tickets),
         key=lambda post: post.time_created,
