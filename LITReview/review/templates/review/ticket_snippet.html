@@ -1,11 +1,18 @@
 <div class="ticket">
-        <li>{{ post.title }}</li>
         <time>{{ post.time_created }}</time>
-        <p>{{ post.description }}</p>
-        <img src="/media/{{post.image}}" width="70">
+        <p id="user">
+        {% if post.user.username == user.username %}
+                Ticket de : Vous
+        {% else %}
+                Ticket de : {{ post.user }}
+        {% endif %}
+        </p>
+        <p id="titre">{{ post.title }}</p>
+        <p id="description">{{ post.description }}</p>
+        <img src="/media/{{post.image}}" width="150">
         {% if liste %}
         {% if post.id in liste %}
-            <p>Cet article a déja une critique</p>
+            <p id="review">(Cet article a déja une critique)</p>
         {% else %}
             <br><a href="{% url 'review-from-ticket' post.id %}">
                 <button>Créer une critique</button>

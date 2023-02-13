@@ -12,3 +12,10 @@ def get_poster_display(context, user):
     if user == context['user']:
         return 'Vous'
     return user.username
+
+@register.simple_tag(takes_context=True)
+def get_poster_display_verb(context, user):
+    if user == context['user']:
+        return 'Vous avez'
+    return user.username + ' a'
+

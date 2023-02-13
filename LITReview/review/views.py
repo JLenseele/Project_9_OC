@@ -130,6 +130,7 @@ def abo(request):
     if request.method == 'POST':
         form = FollowForm(request.POST)
         if form.is_valid():
+            print(request.user)
             follow = form.save(commit=False)
             follow.user = request.user
             follow.save()

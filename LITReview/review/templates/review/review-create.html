@@ -14,7 +14,9 @@
         {{ form_ticket.description }}
     </div>
     <div class="form-group">
+        {% if form_ticket.image %}
         <h4>Image :</h4>
+        {% endif %}
         {{ form_ticket.image }}
     </div>
      <div class="form-group">

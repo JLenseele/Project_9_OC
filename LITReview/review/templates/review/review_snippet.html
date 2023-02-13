@@ -1,5 +1,6 @@
 {% load review_tags %}
 <div class="review">
+        <time>{{ post.time_created }}</time>
         <p id="user">
         {% if post.user.username == user.username %}
                 Vous avez publié une critique
@@ -7,10 +8,18 @@
                 {{ post.user }} a publié une critique
         {% endif %}
         </p>
-
-        <time>{{ post.time_created }}</time>
-
-        <p id="headline">{{ post.headline }} - {{ post.rating }}</p>
+        <p id="headline" >{{ post.headline }} -
+                {% if post.rating == 1 %}
+                ★
+                {% elif post.rating == 2 %}
+                ★★
+                {% elif post.rating == 3 %}
+                ★★★
+                {% elif post.rating == 4 %}
+                ★★★★
+                {% elif post.rating == 5 %}
+                ★★★★★
+                {% endif %}</p>
         <p id="body">{{ post.body }}</p>
 
         {% if post.ticket %}

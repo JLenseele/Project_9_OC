@@ -46,18 +46,83 @@ margin: 5px}
 .ticket{
 border: 5px solid #000000A6;
 margin:30px;
-padding: 20px;
+padding: 20px 0px 10px 50px;
 background-color: #EDEDED;
+text-align: left;
 }
+
+.ticket #user{
+    padding: 4px 10px 4px 15px;
+    font-size: 13px;
+}
+.ticket #titre{
+    padding: 4px 0px 4px 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.ticket #description{
+    padding: 4px 0px 4px 15px;
+    font-size: 14px;
+    font-weight: normal;    
+}
+.ticket img{
+    border: 5px solid;
+    border-radius: 6px;
+}
+.ticket time{
+    float: right;
+    font-size: 10px;
+    font-style: italic;
+    padding: 15px;
+}
+
 .review{
 border: 5px solid #000000A6;
 margin:30px;
 background-color: #D6D6D6;
+text-align: left;
 }
+
+.review time{
+    float: right;
+    font-size: 10px;
+    font-style: italic;
+    padding: 15px;
+}
+.review #user{
+    padding: 4px 10px 4px 15px;
+    font-size: 13px;
+}
+.review #headline{
+    padding: 4px 0px 4px 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.review #body{
+    padding: 4px 0px 4px 15px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.abo, .follow{
+    text-align: center;
+}
+.abo .name,.follow .name{
+    width: 40%;
+}
+.abo .button{
+    min-width: 15%;
+}
+.abo tr,.follow tr{
+    background-color: #ddd9cd
+}
+
 tr{
   width: 100%;
   border-collapse: collapse;
 }
+
+
 .form-group input{
     text-align: center;
     margin: 10px;
