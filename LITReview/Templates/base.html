@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+<html>
     <head>
         <title>LITReview</title>
         <link rel="stylesheet" href="{% static 'review/styles.css' %}" />
@@ -7,10 +7,12 @@
     <body>
     <nav> <h1>LITReview</h1>
     {% if user.is_authenticated %}
-        <a href="{% url 'flux' %}">Flux</a>
-        <a href="{% url 'mypost' %}">Posts</a>
-        <a href="{% url 'abo' %}">Abonnements</a>
-        <a href="{% url 'logout' %}">Déconnexion</a>
+        <div id="navigation">
+            <a href="{% url 'flux' %}">Flux</a>
+            <a href="{% url 'mypost' %}">Posts</a>
+            <a href="{% url 'abo' %}">Abonnements</a>
+            <a href="{% url 'logout' %}">{{ user.username }} : Déconnexion</a>
+        </div>
     {% endif %}
     </nav>
     <div id="main">

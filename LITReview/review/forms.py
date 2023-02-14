@@ -2,7 +2,6 @@ from django import forms
 from review.models import Ticket, Review, UserFollows
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django.forms import TextInput, EmailInput
 
 
 class LoginForm(forms.Form):
@@ -75,7 +74,6 @@ class ReviewForm(forms.ModelForm):
         fields = ['headline', 'body', 'rating']
 
 
-class FollowForm(forms.ModelForm):
-    class Meta:
-        model = UserFollows
-        fields = ['followed_user']
+class FollowForm(forms.Form):
+    followed_user = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Utilisateur',
+                                                                  'class': 'form-control'}))

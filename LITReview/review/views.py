@@ -2,9 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from . import forms
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import CharField, Value, Q
+from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 
 from review.forms import TicketForm, ReviewForm, FollowForm, SignupForm
 from review.models import Ticket, Review, UserFollows
@@ -54,9 +57,12 @@ def flux(request):
         Q(user=request.user)
     ).distinct()
 
+    tickets_filter = Ticket.objects.filter(user=request.user)
+
     reviews = Review.objects.filter(
         Q(user__followed_by__user=request.user) ^
-        Q(user=request.user)
+        Q(user=request.user) ^
+        Q(ticket__in=tickets_filter)
     ).distinct()
 
     liste = []
@@ -124,19 +130,42 @@ def review_create(request, ticket_id=None):
 
 @login_required
 def abo(request):
-    form = FollowForm()
+
+    message = ''
+
     subscriber = UserFollows.objects.filter(followed_user=request.user)
     subscription = UserFollows.objects.filter(user=request.user)
+    print(subscription)
     if request.method == 'POST':
         form = FollowForm(request.POST)
         if form.is_valid():
-            print(request.user)
-            follow = form.save(commit=False)
-            follow.user = request.user
-            follow.save()
+            abo = form.cleaned_data['followed_user']
+            try:
+                userfollow = User.objects.get(username=abo)
+                if userfollow == request.user:
+                    message = "Vous ne pouvez pas suivre votre propre compte"
+                else:
+                    follow = UserFollows()
+                    follow.user = request.user
+                    follow.followed_user = userfollow
+                    follow.save()
+
+            except ObjectDoesNotExist:
+                message = "Cet utilisateur n'existe pas"
+            except IntegrityError:
+                message = "Vous suivez déja cet utilisateur"
+
+
+    else:
+        form = FollowForm()
+
     return render(request, 'review/abo.html',
-                  context=
-                  {'form': form, 'subscriber': subscriber, 'subscription': subscription})
+                  context={
+                      'form': form,
+                      'subscriber': subscriber,
+                      'subscription': subscription,
+                      'message': message
+                  })
 
 
 @login_required
@@ -159,10 +188,12 @@ def mypost(request):
         key=lambda post: post.time_created,
         reverse=True)
     return render(request, 'review/post.html',
-                  context=
-                  {'posts': posts})
+                  context={
+                      'posts': posts
+                  })
 
 
+@login_required
 def mypost_change(request, post_id, post_type):
     if post_type == 'TICKET':
         ticket = Ticket.objects.get(id=post_id)
@@ -198,3 +229,7 @@ def mypost_delete(request, post_id, post_type):
             return redirect('mypost')
 
     return render(request, 'review/delete-post.html', context={'post': post})
+
+
+def error_404_view(request, exception):
+    return render(request, '404.html')
