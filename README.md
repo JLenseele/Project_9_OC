@@ -85,28 +85,11 @@ C'est à partir de cette page que vous pourrez modifier ou supprimer vos différ
 Cette page affiche la liste des utilisateurs que vous suivez et qui vous suivent.  
 Vous avez la possibilité de vous désabonner des utilisateurs que vous suivez.  
 
-Un formulaire est également à disposition pour saisir le nom d'un utilisateur que vous souhaitez suivre.
-
-### Rapport
-
-Plusieurs rapport sont disponibles depuis le menu principal:  
-- liste des joueurs (ordre alph.) / (classements)  
-- liste des tournois  
-- détails complet d'un tournoi (joueurs / tours / matchs)
+Un formulaire est également à disposition pour saisir le nom d'un utilisateur que vous souhaitez suivre.  
 
 ## Flake 8
 
-rapport HTML disponible dans ./flake-report/index.html  
-
-config  
-
-    [flake8]
-    exclude = git/, env/,  
-    max-line-length = 119
-
 ## Roadmap
-
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
     
