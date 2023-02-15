@@ -154,8 +154,6 @@ def abo(request):
                 message = "Cet utilisateur n'existe pas"
             except IntegrityError:
                 message = "Vous suivez déja cet utilisateur"
-
-
     else:
         form = FollowForm()
 

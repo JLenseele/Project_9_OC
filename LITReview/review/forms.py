@@ -1,5 +1,5 @@
 from django import forms
-from review.models import Ticket, Review, UserFollows
+from review.models import Ticket, Review
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
