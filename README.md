@@ -87,13 +87,7 @@ Vous avez la possibilité de vous désabonner des utilisateurs que vous suivez.
 
 Un formulaire est également à disposition pour saisir le nom d'un utilisateur que vous souhaitez suivre.  
 
-## Flake 8
-
-## Roadmap
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-    
-## Reference
 
 ## Contributors
 
