@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Vos posts :</h1>
+<h1>Mes posts</h1>
+
 {% for post in posts %}
+
+    <!-- Liste des tickets/reviews créé avec le compte de l'utilisateur connecté -->
     {% if post.content_type == 'TICKET' %}
         {% include 'ticket_snippet.html' %}
     {% elif post.content_type == 'REVIEW' %}
         {% include 'review_snippet.html' %}
     {% endif %}
+
+    <!-- Bouton de modification / suppression de chaque post -->
     <a href="{% url 'mypost-change' post.id post.content_type %}"><button>Modifier</button></a>
     <a href="{% url 'mypost-delete' post.id post.content_type %}"><button>Supprimer</button></a>
 {% endfor %}
+
 {% endblock content %}

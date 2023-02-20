@@ -1,9 +1,33 @@
+/* General */
+
 body{
     font-family: Verdana, "Arial",  sans-serif;
 }
 
+button{
+    border-radius: 8px;
+    padding: 14px 40px;
+    background-color: white;
+    color: black;
+    border: 5px solid #4CAF50; /* Green */
+    font-size:17px;
+    margin: 5px;
+    transition-duration: 0.3s;
+}
+
+button:hover{
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+button a{
+    text-decoration: none;
+    margin: 5px
+}
+
+/* Menu navigation */
+
 nav{
-    width: 100%;
     height: auto;
     border: 3px solid black;
 }
@@ -13,50 +37,40 @@ nav div{
 nav h1{
     text-align: center;
 }
+nav #logo{
+    width: 30px;
+    position: static;
+}
+
 #navigation{
     margin: 10px;
 }
 #navigation a{
     text-decoration: none;
     padding: 10px;
-    border: 0px;
     border-radius: 8px 8px 0px 0px;
     background-color: #4CAF50;
     margin: 5px;
     color: white;
+    transition-duration: 0.3s;
 }
+#navigation a:hover{
+    
+    color: black;
+}
+
+
+/* Contenu principal */
 
 #main{
     border: 3px solid black;
     text-align: center;
     padding: 20px;
 }
-
-button
-{border-radius: 8px;
-padding: 14px 40px;
-background-color: white;
-color: black;
-border: 5px solid #4CAF50; /* Green */
-font-size:17px;
-margin: 5px;
-transition-duration: 0.2s;
-}
-
-button:hover{
- background-color: #4CAF50; /* Green */
-  color: white;
-}
-
-button a{
-text-decoration: none;
-margin: 5px}
-
 .right, .left{
     text-align: center;
     padding: 4%;
 }
-
 .barre{
     border: 3px solid black;
     width: 30%;
@@ -65,20 +79,19 @@ margin: 5px}
 }
 
 .ticket_in_review{
-border: 5px solid #000000A6;
-border-radius: 10px;
-padding: 10px;
-background-color: #EDEDED;
-text-align: center;
+    border: 5px solid #000000A6;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #EDEDED;
+    text-align: center;
 }
 .ticket{
-border: 5px solid #000000A6;
-margin:30px;
-padding: 20px 0px 10px 50px;
-background-color: #EDEDED;
-text-align: left;
+    border: 5px solid #000000A6;
+    margin:30px;
+    padding: 20px 0px 10px 50px;
+    background-color: #EDEDED;
+    text-align: left;
 }
-
 .ticket #user{
     padding: 4px 10px 4px 15px;
     font-size: 13px;
@@ -105,10 +118,10 @@ text-align: left;
 }
 
 .review{
-border: 5px solid #000000A6;
-margin:30px;
-background-color: #D6D6D6;
-text-align: left;
+    border: 5px solid #000000A6;
+    margin:30px;
+    background-color: #D6D6D6;
+    text-align: left;
 }
 
 .review time{
@@ -132,6 +145,8 @@ text-align: left;
     font-weight: normal;
 }
 
+/* Page Abonnement */
+
 .abo, .follow{
     text-align: center;
 }
@@ -146,10 +161,11 @@ text-align: left;
 }
 
 tr{
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
+/* Style des formulaire */
 
 .form-group input{
     text-align: center;
@@ -179,8 +195,8 @@ input[type='submit']{
     margin: 4px;
 }
 input[type='submit']:hover{
- background-color: #4CAF50; /* Green */
-  color: white;
+    background-color: #4CAF50; /* Green */
+    color: white;
 }
 
 .form-group textarea{

@@ -1,22 +1,30 @@
 <div class="ticket">
-        <time>{{ post.time_created }}</time>
-        <p id="user">
-        {% if post.user.username == user.username %}
-                Ticket de : Vous
-        {% else %}
-                Ticket de : {{ post.user }}
-        {% endif %}
-        </p>
-        <p id="titre">{{ post.title }}</p>
-        <p id="description">{{ post.description }}</p>
-        <img src="/media/{{post.image}}" width="150">
-        {% if liste %}
+
+    <!-- Vue détaillé d'un ticket -->
+    <time>{{ post.time_created }}</time>
+
+    <p id="user">
+    {% if post.user.username == user.username %}
+            Ticket de : Vous
+    {% else %}
+            Ticket de : {{ post.user }}
+    {% endif %}
+    </p>
+
+    <p id="titre">{{ post.title }}</p>
+
+    <p id="description">{{ post.description }}</p>
+
+    <img src="/media/{{post.image}}" width="150">
+    {% if liste %}
         {% if post.id in liste %}
+            <!-- Si le ticket est lié à une review : -->
             <p id="review">(Cet article a déja une critique)</p>
         {% else %}
+            <!-- Si le ticket n'est pas lié à une review : -->
             <br><a href="{% url 'review-from-ticket' post.id %}">
                 <button>Créer une critique</button>
             </a>
         {% endif %}
-        {% endif %}
+    {% endif %}
 </div>

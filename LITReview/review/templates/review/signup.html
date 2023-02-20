@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h2>Inscrivez-vous</h2>
+<!-- Si erreur d'inscription : message -->
 {{ message }}
+
 <form method="post">
+    <!-- formulaire de création d'un nouveau compte -->
     <div class="form-group">
         {{ form.username }}
     </div>
@@ -15,5 +19,6 @@
   {% csrf_token %}
   <button type="submit">S'inscrire</button>
 </form>
+
 <a href="{% url 'login' %}"><button>Retour</button></a>
 {% endblock content %}

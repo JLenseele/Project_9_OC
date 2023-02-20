@@ -4,13 +4,20 @@
 <h1>Supprimer le post</h1>
 
 <p>Etes-vous sûr de vouloir supprimer le post ?</p>
-        {% if post|model_type == 'Ticket' %}
-            {% include 'ticket_snippet.html' %}
-        {% elif post|model_type == 'Review' %}
-            {% include 'review_snippet.html' %}
-        {% endif %}
+
+    <!-- Affichage du post sélectionné pour la suppression -->
+    {% if post|model_type == 'Ticket' %}
+        {% include 'ticket_snippet.html' %}
+    {% elif post|model_type == 'Review' %}
+        {% include 'review_snippet.html' %}
+    {% endif %}
+
 <form action="" method="post">
-{% csrf_token %}
-<input type="submit" value="Supprimer">
+
+    <!-- formulaire validation de suppression de post -->
+    {% csrf_token %}
+    <input type="submit" value="Supprimer">
+
 </form>
+
 {% endblock content %}

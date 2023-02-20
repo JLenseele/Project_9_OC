@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h2>Suivre d'autre utilisateur</h2>
+
+<!-- Si erreur dans le nom d'user saisie : message -->
 <h4>{{ message }}</h4>
+
 <form action="" method="post">
+
+    <!-- Formulaire follow d'un autre user -->
     {% csrf_token %}
     <div class="form-group">
         {{ form.followed_user }}
     </div>
     <input type="submit" value="Envoyer">
+
 </form>
 
 <h2>Abonnements</h2>
 <table class="abo">
+
     {% for sub in subscription %}
+    <!-- Liste des user follow par l'user authentifié -->
     <tr>
         <td class="name">{{sub.followed_user}}</td>
         <td class="button">
@@ -25,7 +34,9 @@
 
 <h2>Abonnés</h2>
 <table class="follow">
-        {% for subc in subscriber %}
+
+    <!-- Liste des users qui suivent l'user authentifié -->
+    {% for subc in subscriber %}
     <tr>
         <td class="name">{{subc.user}}</td>
     </tr>

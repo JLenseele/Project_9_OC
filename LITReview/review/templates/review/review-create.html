@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1 xmlns="http://www.w3.org/1999/html">Créer une Critique</h1>
+
 {% if ticket %}
+<!-- Si un ticket existe, creation d'une review en réponse au ticket choisi -->
 <p>Vous êtes en train de poster en réponse à</p>
+<!-- ticket snippet = vu d'affichage d'un ticket -->
 {% include 'ticket_snippet.html' with post=ticket %}
 {% endif %}
+
 <form action="" method="post" enctype="multipart/form-data">
     {% if not ticket %}
+    <!-- S'il n'y a pas de ticket, affichage du formulaire ticket vierge -->
     <div class="ticket_in_review">
         <h4>Livre / Article</h4>
         <div class="form-group">
@@ -23,6 +29,8 @@
         </div>
     </div>
     {% endif %}
+
+    <!-- + formulaire de review dans tous les cas -->
     <h4>Critique</h4>
      <div class="form-group">
         {{ form_review.headline }}
@@ -37,4 +45,5 @@
     {% csrf_token %}
     <input type="submit" value="Envoyer">
 </form>
+
 {% endblock content %}

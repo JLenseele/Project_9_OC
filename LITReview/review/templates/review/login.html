@@ -2,11 +2,18 @@
 {% block content %}
 
 <div class="left">
+
+    <!-- Bouton d'accès page d'inscription -->
     <h3>Inscrivez-vous maintenant</h3>
     <a href="{% url 'signup' %}"><button>S'inscrire</button></a>
+
 </div>
+
+<!-- div de style -->
 <div class="barre"></div>
+
 <div class="right">
+    <!-- Formulaire de connexion user -->
     <h3>Connectez-vous</h3>
     {{ message }}
     <form method="post">
@@ -18,8 +25,8 @@
         </div>
         {% csrf_token %}
         <button type="submit" >Se connecter</button>
-
     </form>
+
 </div>
 
 {% endblock content %}

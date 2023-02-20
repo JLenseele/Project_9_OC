@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Page flux</h1>
+<h1>Mon flux</h1>
+
+<!-- Bouton de creation review/ticket vierge -->
 <a href="{% url 'ticket-create' %}">
     <button>Demander une critique</button>
 </a>
 <a href="{% url 'review-create' %}">
     <button>Créer une critique</button>
 </a>
+
 <ul>
+    <!-- Liste des tickets/review récupéré dans views.py -->
     {% for post in posts %}
         {% if post.content_type == 'TICKET' %}
             {% include 'ticket_snippet.html' %}

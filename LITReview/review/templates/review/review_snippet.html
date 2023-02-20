@@ -1,5 +1,7 @@
 {% load review_tags %}
 <div class="review">
+
+        <!-- Affichage d'une review -->
         <time>{{ post.time_created }}</time>
         <p id="user">
         {% if post.user.username == user.username %}
@@ -22,6 +24,7 @@
                 {% endif %}</p>
         <p id="body">{{ post.body }}</p>
 
+        <!-- Si ticket lié à la review, affichage du ticket -->
         {% if post.ticket %}
                 <div class="review_include_ticket">
                 {% include 'ticket_snippet.html' with post=post.ticket %}

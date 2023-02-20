@@ -1,44 +1,63 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from . import forms
+
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
+
+from django.conf import settings
+
+from django.core.exceptions import ObjectDoesNotExist
+
+from django.shortcuts import render, redirect
+
 from django.db.models import CharField, Value, Q
 from django.db import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
+
+from itertools import chain
 
 from review.forms import TicketForm, ReviewForm, FollowForm, SignupForm
 from review.models import Ticket, Review, UserFollows
 
-from itertools import chain
-
 
 def login_page(request):
+    """
+    Fonction permettant de récupérer le formulaire forms.LoginForm()
+    et de s'authentifier'
+    """
     form = forms.LoginForm()
     message = ''
     if request.method == 'POST':
         form = forms.LoginForm(request.POST)
+
         if form.is_valid():
             user = authenticate(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password'],
             )
+
             if user is not None:
                 login(request, user)
                 return redirect('flux')
             else:
                 message = 'Identifiants invalides.'
+
     return render(request, 'review/login.html', context={'form': form, 'message': message})
 
 
 def logout_user(request):
+    """
+        Fonction permettant de déconnecter l'utilisateur actif
+    """
     logout(request)
     return redirect('login')
 
 
 def signup(request):
+    """
+        Fonction de création d'un nouvel utilisateur
+        form : username / password / confirm password
+    """
     form = SignupForm()
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -51,17 +70,29 @@ def signup(request):
 
 @login_required
 def flux(request):
-
+    """
+        Fonction qui récupère les posts (tickets / reviews) lié à l'user:
+        - créé par l'user authentifié
+        - créé par un user suivi par l'user authentifié
+        - en réponse à un ticket de l'user authentifié
+        -> trié par ordre inverse de création (time_created)
+    """
     tickets = Ticket.objects.filter(
-        Q(user__followed_by__user=request.user) ^
+        # ticket créé par user follow
+        Q(user__followed_by__user=request.user) |
+        # ticket créé par user actif
         Q(user=request.user)
     ).distinct()
 
+    # liste des tickets créés par user actif
     tickets_filter = Ticket.objects.filter(user=request.user)
 
     reviews = Review.objects.filter(
-        Q(user__followed_by__user=request.user) ^
-        Q(user=request.user) ^
+        # review créé par user follow
+        Q(user__followed_by__user=request.user) |
+        # review créé par user actif
+        Q(user=request.user) |
+        # review créé en réponse à un ticket de l'user actif
         Q(ticket__in=tickets_filter)
     ).distinct()
 
@@ -72,8 +103,7 @@ def flux(request):
 
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
-    print(reviews)
-    print(tickets)
+
     posts = sorted(
         chain(reviews, tickets),
         key=lambda post: post.time_created,
@@ -84,6 +114,11 @@ def flux(request):
 
 @login_required
 def ticket_create(request):
+    """
+        Fonction de creation de nouveaux tickets
+        GET -> formulaire
+        POST -> recup data -> save()
+    """
     form = TicketForm()
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
@@ -92,11 +127,17 @@ def ticket_create(request):
             ticket.user = request.user
             ticket.save()
             return redirect('flux')
+
     return render(request, 'review/ticket-create.html', context={'form': form})
 
 
 @login_required
 def review_create(request, ticket_id=None):
+    """
+        Fonction de creation de nouvelles reviews
+        GET -> formulaire
+        POST -> recup data -> save()
+    """
     if ticket_id is None:
         form_r = ReviewForm()
         form_t = TicketForm()
@@ -112,6 +153,7 @@ def review_create(request, ticket_id=None):
                 review.ticket = ticket
                 review.save()
                 return redirect('flux')
+
         context = {'form_review': form_r, 'form_ticket': form_t}
     else:
         form_r = ReviewForm()
@@ -130,6 +172,10 @@ def review_create(request, ticket_id=None):
 
 @login_required
 def abo(request):
+    """
+        Fonction de creation de lien
+        type 'follow' entre deux users
+    """
 
     message = ''
 
@@ -153,21 +199,24 @@ def abo(request):
             except ObjectDoesNotExist:
                 message = "Cet utilisateur n'existe pas"
             except IntegrityError:
-                message = "Vous suivez déja cet utilisateur"
+                message = "Vous suivez deja cet utilisateur"
     else:
         form = FollowForm()
 
     return render(request, 'review/abo.html',
-                  context={
-                      'form': form,
-                      'subscriber': subscriber,
-                      'subscription': subscription,
-                      'message': message
-                  })
+                  context={'form': form,
+                           'subscriber': subscriber,
+                           'subscription': subscription,
+                           'message': message}
+                  )
 
 
 @login_required
 def unsub(request, sub_id):
+    """
+        Fonction suppression de lien
+        type 'follow" entre deux users
+    """
     sub = UserFollows.objects.get(id=sub_id)
     sub.delete()
     return redirect('abo')
@@ -175,6 +224,10 @@ def unsub(request, sub_id):
 
 @login_required
 def mypost(request):
+    """
+        Fonction de récupération des posts créés
+        par l'user authentifié
+    """
     ticket = Ticket.objects.filter(user=request.user)
     review = Review.objects.filter(user=request.user)
 
@@ -186,13 +239,16 @@ def mypost(request):
         key=lambda post: post.time_created,
         reverse=True)
     return render(request, 'review/post.html',
-                  context={
-                      'posts': posts
-                  })
+                  context={'posts': posts}
+                  )
 
 
 @login_required
 def mypost_change(request, post_id, post_type):
+    """
+        Fonction de modification de posts (ticket ou review)
+        créés par l'utilisateur
+    """
     if post_type == 'TICKET':
         ticket = Ticket.objects.get(id=post_id)
         if request.method == 'POST':
@@ -215,6 +271,10 @@ def mypost_change(request, post_id, post_type):
 
 
 def mypost_delete(request, post_id, post_type):
+    """
+        Fonction de suppression de posts (ticket ou review)
+        créés par l'utilisateur
+    """
     if post_type == 'TICKET':
         post = Ticket.objects.get(id=post_id)
         if request.method == 'POST':

@@ -5,18 +5,25 @@
         <link rel="stylesheet" href="{% static 'review/styles.css' %}" />
     </head>
     <body>
-    <nav> <h1>LITReview</h1>
+    <nav> <h1>LITReview <img src="../../media/LIT.PNG" id="logo"></h1>
+
     {% if user.is_authenticated %}
+
+        <!-- Affichage du menu de navigation si l'user actif est authentifié -->
         <div id="navigation">
             <a href="{% url 'flux' %}">Flux</a>
             <a href="{% url 'mypost' %}">Posts</a>
             <a href="{% url 'abo' %}">Abonnements</a>
             <a href="{% url 'logout' %}">{{ user.username }} : Déconnexion</a>
         </div>
+
     {% endif %}
     </nav>
+
+    <!-- intégration du contenu principal de la page -->
     <div id="main">
         {% block content %}{% endblock %}
     </div>
+
     </body>
 </html>
