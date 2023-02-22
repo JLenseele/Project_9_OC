@@ -20,7 +20,7 @@ from itertools import chain
 from review.forms import TicketForm, ReviewForm, FollowForm, SignupForm
 from review.models import Ticket, Review, UserFollows
 
-import random
+POST_PER_PAGE = 5
 
 
 def login_page(request):
@@ -112,7 +112,7 @@ def flux(request):
         key=lambda post: post.time_created,
         reverse=True)
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, POST_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -188,14 +188,18 @@ def abo(request):
 
     message = ''
 
+    # liste des users qui suivent l'user actif
     subscriber = UserFollows.objects.filter(followed_user=request.user)
+    # liste des users suivi par l'user actif
     subscription = UserFollows.objects.filter(user=request.user)
 
-    sub_name = UserFollows.objects.filter(user=request.user).values_list('followed_user',
-                                                                         flat=True)
+    # liste des ID users suivi par l'user actif
+    sub_id = UserFollows.objects.filter(user=request.user).values_list('followed_user',
+                                                                       flat=True)
+    # liste des users non suivie par l'user actif
     suggestions = User.objects.filter(
         ~Q(username=request.user) &
-        ~Q(id__in=sub_name)
+        ~Q(id__in=sub_id)
     ).distinct()
 
     if request.method == 'POST':
