@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from django.conf import settings
+from django.http import HttpResponseNotFound
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -271,7 +272,10 @@ def mypost_change(request, post_id, post_type):
         créés par l'utilisateur
     """
     if post_type == 'TICKET':
-        ticket = Ticket.objects.get(id=post_id)
+        try:
+            ticket = Ticket.objects.get(id=post_id)
+        except Ticket.DoesNotExist:
+            return redirect('mypost')
         if request.method == 'POST':
             form = TicketForm(request.POST, instance=ticket)
             if form.is_valid:
@@ -311,4 +315,4 @@ def mypost_delete(request, post_id, post_type):
 
 
 def error_404_view(request, exception):
-    return render(request, '404.html')
+    return render(request, 'review/404.html')

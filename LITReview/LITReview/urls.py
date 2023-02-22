@@ -39,6 +39,5 @@ urlpatterns = [
     path('mypost/<int:post_id>/<str:post_type>/delete/', review.views.mypost_delete, name='mypost-delete'),
 ]
 
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
