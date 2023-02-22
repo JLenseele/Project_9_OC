@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 
 from django.shortcuts import render, redirect
 
@@ -18,6 +19,8 @@ from itertools import chain
 
 from review.forms import TicketForm, ReviewForm, FollowForm, SignupForm
 from review.models import Ticket, Review, UserFollows
+
+import random
 
 
 def login_page(request):
@@ -109,7 +112,13 @@ def flux(request):
         key=lambda post: post.time_created,
         reverse=True)
 
-    return render(request, 'review/flux.html', context={'posts': posts, 'liste': liste})
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'review/flux.html', context={'posts': posts,
+                                                        'liste': liste,
+                                                        'page_obj': page_obj})
 
 
 @login_required
@@ -181,7 +190,14 @@ def abo(request):
 
     subscriber = UserFollows.objects.filter(followed_user=request.user)
     subscription = UserFollows.objects.filter(user=request.user)
-    print(subscription)
+
+    sub_name = UserFollows.objects.filter(user=request.user).values_list('followed_user',
+                                                                         flat=True)
+    suggestions = User.objects.filter(
+        ~Q(username=request.user) &
+        ~Q(id__in=sub_name)
+    ).distinct()
+
     if request.method == 'POST':
         form = FollowForm(request.POST)
         if form.is_valid():
@@ -207,7 +223,8 @@ def abo(request):
                   context={'form': form,
                            'subscriber': subscriber,
                            'subscription': subscription,
-                           'message': message}
+                           'message': message,
+                           'suggestions': suggestions}
                   )
 
 

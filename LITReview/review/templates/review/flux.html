@@ -12,7 +12,7 @@
 
 <ul>
     <!-- Liste des tickets/review récupéré dans views.py -->
-    {% for post in posts %}
+    {% for post in page_obj %}
         {% if post.content_type == 'TICKET' %}
             {% include 'ticket_snippet.html' %}
         {% elif post.content_type == 'REVIEW' %}
@@ -20,4 +20,15 @@
         {% endif %}
     {% endfor %}
 </ul>
+<div id="page">
+    {% if page_obj.has_previous %}
+    <a href="?page=1"><button>1</button></a>
+    <a href="?page={{ page_obj.previous_page_number }}"><button><</button></a>
+    {% endif %}
+    <span> {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}"><button>></button></a>
+    <a href="?page={{ page_obj.paginator.num_pages }}"><button>{{ page_obj.paginator.num_pages }}</button></a>
+    {% endif %}
+</div>
 {% endblock content %}

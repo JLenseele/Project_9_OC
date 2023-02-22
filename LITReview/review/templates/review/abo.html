@@ -3,6 +3,12 @@
 
 <h2>Suivre d'autre utilisateur</h2>
 
+{% if suggestions %}
+    <h4>suggestions :</h4>
+    <p>{% for suggest in suggestions %}
+        {{suggest.username}} /
+    {% endfor %}</p>
+{% endif %}
 <!-- Si erreur dans le nom d'user saisie : message -->
 <h4>{{ message }}</h4>
 
