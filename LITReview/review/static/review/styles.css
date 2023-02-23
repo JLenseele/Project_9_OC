@@ -90,10 +90,13 @@ nav #logo{
 }
 .ticket{
     border: 5px solid #000000A6;
-    margin:30px;
-    padding: 20px 0px 10px 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    padding: 20px 50px 10px 50px;
     background-color: #EDEDED;
     text-align: left;
+    max-width: 50%;
 }
 .ticket #user{
     padding: 4px 10px 4px 15px;
@@ -119,12 +122,29 @@ nav #logo{
     font-style: italic;
     padding: 15px;
 }
+.ticket button{
+    text-align: right;
+    margin: 15px;
+}
+.review_include_ticket .ticket{
+    border: 5px solid #000000A6;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    background-color: #EDEDED;
+    text-align: left;
+    max-width: 100%;
+}
 
 .review{
     border: 5px solid #000000A6;
-    margin:30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
     background-color: #D6D6D6;
     text-align: left;
+    padding: 20px 50px 10px 50px;
+    max-width: 50%;
 }
 
 .review time{
@@ -152,9 +172,13 @@ nav #logo{
 
 .abo, .follow{
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 .abo .name,.follow .name{
-    width: 40%;
+    width: 30%;
+    font-size: 20px;
+    padding: 5px;
 }
 .abo .button{
     min-width: 15%;
@@ -174,7 +198,7 @@ tr{
     text-align: center;
     margin: 10px;
     padding: 5px;
-    width: 80%;
+    width: 60%;
     height: 50px;
     font-size: 20px;
     border-radius: 4px;
@@ -183,10 +207,13 @@ tr{
     text-align: center;
     margin: 10px;
     padding: 5px;
-    width: 300px;
+    width: auto;
     height: 50px;
     font-size: 20px;
     border-radius: 4px;
+}
+.form-group input[type='checkbox']{
+    width: auto;
 }
 input[type='submit']{
     border-radius: 8px;

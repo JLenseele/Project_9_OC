@@ -14,8 +14,11 @@
     <p id="titre">{{ post.title }}</p>
 
     <p id="description">{{ post.description }}</p>
-
-    <img src="/media/{{post.image}}" width="150">
+    {% if post.image %}
+        <img src="/media/{{post.image}}" width="150">
+    {% else %}
+        <img src="/media/book_default.png" width="150">
+    {% endif %}
     {% if liste %}
         {% if post.id in liste %}
             <!-- Si le ticket est lié à une review : -->

@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="{% static 'review/styles.css' %}" />
     </head>
     <body>
-    <nav> <h1>LITReview <img src="../../media/LIT.PNG" id="logo"></h1>
+    <nav> <h1>LITReview <img src="{% static 'img/LIT.PNG' %}" id="logo"></h1>
 
     {% if user.is_authenticated %}
 

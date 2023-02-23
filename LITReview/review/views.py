@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from django.conf import settings
-from django.http import HttpResponseNotFound
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -75,11 +74,11 @@ def signup(request):
 @login_required
 def flux(request):
     """
-        Fonction qui récupère les posts (tickets / reviews) lié à l'user:
+        Fonction qui récupère les posts (tickets / reviews) lié à l'user :
         - créé par l'user authentifié
         - créé par un user suivi par l'user authentifié
         - en réponse à un ticket de l'user authentifié
-        -> trié par ordre inverse de création (time_created)
+        → trié par ordre inverse de création (time_created)
     """
     tickets = Ticket.objects.filter(
         # ticket créé par user follow
@@ -272,18 +271,17 @@ def mypost_change(request, post_id, post_type):
         créés par l'utilisateur
     """
     if post_type == 'TICKET':
-        try:
-            ticket = Ticket.objects.get(id=post_id)
-        except Ticket.DoesNotExist:
-            return redirect('mypost')
+
+        ticket = Ticket.objects.get(id=post_id)
         if request.method == 'POST':
-            form = TicketForm(request.POST, instance=ticket)
+            form = TicketForm(request.POST, request.FILES, instance=ticket)
             if form.is_valid:
                 form.save()
                 return redirect('mypost')
         else:
             form = TicketForm(instance=ticket)
     else:
+
         review = Review.objects.get(id=post_id)
         if request.method == 'POST':
             form = ReviewForm(request.POST, instance=review)
