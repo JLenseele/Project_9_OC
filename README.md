@@ -20,8 +20,8 @@ Application Web permettant à une communeauté d'utilisateurs de consulter ou de
 
 #### Récuperer le projet sur GitHub
 
-    git clone https://github.com/JLenseele/Projet_9_OC.git
-    cd Projet_9_OC
+    git clone https://github.com/JLenseele/Project_9_OC
+    cd Project_9_OC
 
 #### Créer l'environement virtuel
 
