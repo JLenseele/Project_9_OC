@@ -27,7 +27,7 @@ Application Web permettant à une communeauté d'utilisateurs de consulter ou de
 
     python -m venv env
     env\Scripts\activate
-    pip install -r requirements.txt
+    pip install -r requierments.txt
     
 #### (Optionnel - rapport Flake8)  
 Il est possible de générer un nouveau rapport via la commande suivante :  
